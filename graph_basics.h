@@ -30,13 +30,16 @@ typedef struct ll_item_edge {
 typedef struct graph_data {
     Node *nodes;
     int node_count;
+    int directed;
 } Graph;
 
 void addNode(Graph *g, int id);
 
 Status addEdgeToGraph(Graph *g, int source_id, int dest_id, int weight);
 
-Graph *createEmptyGraph();
+Graph *createEmptyGraphDirected();
+
+Graph *createEmptyGraphUndirected();
 
 void printNode_(Node *node);
 

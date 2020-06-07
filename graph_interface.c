@@ -21,7 +21,20 @@ void edgeInput(Graph *g) {
 
 
 Graph *graphEdit(Graph *g) {
-    if (g == NULL) { g = createEmptyGraph(); }
+    if (g == NULL) {
+        printLine("1) Create Undirected Graph");
+        printLine("2) Create Directed Graph");
+        int directionality = scanInt("Enter Choice");
+        while (directionality != 1 && directionality != 2) {
+            printLine("Invalid Choice");
+            directionality = scanInt("Enter Choice");
+        }
+        if (directionality == 1) {
+            g = createEmptyGraphUndirected();
+        } else {
+            g = createEmptyGraphDirected();
+        }
+    }
     int choice = 0;
     while (choice != 3) {
         printGraph(g);

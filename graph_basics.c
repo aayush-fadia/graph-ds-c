@@ -85,15 +85,29 @@ Status addEdgeToGraph(Graph *g, int source_id, int dest_id, int weight) {
         newEdge->destNode = dest_node;
         newEdge->weight = weight;
         retval = addEdgeToNode_(source_node, newEdge);
+        if (!g->directed) {
+            Edge *newEdgeReverse = (Edge *) malloc(sizeof(Edge));
+            newEdgeReverse->dest = source_id;
+            newEdgeReverse->destNode = source_node;
+            newEdgeReverse->weight = weight;
+            retval = addEdgeToNode_(dest_node, newEdgeReverse);
+        }
     }
     return retval;
 }
 
 
-Graph *createEmptyGraph() {
+Graph *createEmptyGraphDirected() {
     Graph *g = (Graph *) malloc(sizeof(Graph));
     g->nodes = NULL;
-//    addNode(g);
+    g->directed = 1;
+    return g;
+}
+
+Graph *createEmptyGraphUndirected() {
+    Graph *g = (Graph *) malloc(sizeof(Graph));
+    g->nodes = NULL;
+    g->directed = 0;
     return g;
 }
 
@@ -110,6 +124,7 @@ void printNode_(Node *node) {
 void printGraph(Graph *g) {
     Node *nodes_iter = g->nodes;
     printf("-----------------------------\n");
+    char *directionality = g->directed ? "Directed" : "Undirected";
     printf("%d nodes\n", g->node_count);
     while (nodes_iter != NULL) {
         printNode_(nodes_iter);
