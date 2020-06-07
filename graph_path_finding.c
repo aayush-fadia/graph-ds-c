@@ -44,7 +44,7 @@ int posInQueue(DijkstraQueue *q, int index) {
 void sortQueue(DijkstraQueue *q, int check_index) {
     DijkstraElement *cur_elem = q->queue[check_index];
     DijkstraElement *prev_element = q->queue[check_index - 1];
-    while (!isLesser(prev_element->dist, cur_elem->dist) && check_index > 0) {
+    while (check_index > 0 && !isLesser(prev_element->dist, cur_elem->dist)) {
         q->queue[check_index] = prev_element;
         check_index = check_index - 1;
         q->queue[check_index] = cur_elem;
@@ -132,6 +132,7 @@ void printPathTo(DijkstraQueue *q, int source_index, int dest_index) {
 void printAllPathsDijkstra(DijkstraQueue *q) {
     int source_index = q->queue[0]->index_node->index;
     int source_id = q->queue[0]->index_node->id;
+    printf("-----------------------------------------------------\n");
     for (int i = 0; i < q->node_count; i++) {
         if (q->indexed[i]->dist != -1) {
             printf("%d", source_id);
@@ -140,6 +141,7 @@ void printAllPathsDijkstra(DijkstraQueue *q) {
             printf("No path from %d to %d\n", source_id, q->indexed[i]->index_node->id);
         }
     }
+    printf("-----------------------------------------------------\n");
 }
 
 
@@ -203,13 +205,14 @@ FMatrix *updateFMatrix(FMatrix *oldFMatrix, int permit) {
 }
 
 void printFMatrix(FMatrix *matrix) {
-    printf("-----------------------------\n");
+    printf("---------------------------------------------------\n");
     for (int i = 0; i < matrix->n; i++) {
         for (int j = 0; j < matrix->n; j++) {
-            printf("%dv%d ", matrix->matrix[i][j].dist, matrix->matrix[i][j].prev);
+            printf("%d via %d ", matrix->matrix[i][j].dist, matrix->matrix[i][j].prev);
         }
         printf("\n");
     }
+    printf("---------------------------------------------------\n");
 }
 
 
@@ -223,6 +226,7 @@ void destroyFMatrix(FMatrix *toDestroy) {
 
 
 FMatrix *APSP(Graph *g) {
+    indexate(g);
     FMatrix *old = initFMatrix(g);
     for (int i = 0; i < g->node_count; i++) {
         FMatrix *new = updateFMatrix(old, i);
@@ -263,7 +267,7 @@ void allPathsStep(AllPathsState state, Node *node, int dest_id) {
             printf("%d->", state.path[i]);
         }
         printf("%d\n", dest_id);
-    }else{
+    } else {
         int destReached = 0;
         int visited = 0;
         for (int j = 0; j < state.writer && visited == 0; j++) {
@@ -282,6 +286,7 @@ void allPathsStep(AllPathsState state, Node *node, int dest_id) {
                 }
                 state_new.path[state.writer] = node->id;
                 state_new.writer = state.writer + 1;
+                state_new.total_weight = state.total_weight + edges_iter->weight;
                 allPathsStep(state_new, edges_iter->destNode, dest_id);
                 edges_iter = edges_iter->next;
             }
@@ -298,14 +303,16 @@ void printAllPaths(Graph *g, int source_id, int dest_id) {
         nodes_iter = nodes_iter->next;
     }
     Edge *edges_iter = nodes_iter->edges;
+    printf("----------------------------------------------\n");
     while (edges_iter != NULL) {
         AllPathsState state;
         state.path = (int *) malloc(g->node_count * sizeof(int));
         state.path[0] = nodes_iter->id;
         state.writer = 1;
         state.n = g->node_count;
+        state.total_weight = 0;
         allPathsStep(state, edges_iter->destNode, dest_id);
         edges_iter = edges_iter->next;
     }
-
+    printf("----------------------------------------------\n");
 }

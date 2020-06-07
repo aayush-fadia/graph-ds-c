@@ -35,6 +35,7 @@ typedef struct all_paths_state {
     int writer;
     int *path;
     int n;
+    int total_weight;
 } AllPathsState;
 
 void printQueue(DijkstraQueue *q);

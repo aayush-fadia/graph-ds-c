@@ -28,7 +28,7 @@ Graph *graphEdit(Graph *g) {
         printLine("1) Add a node to your graph");
         printLine("2) Add an edge to your graph");
         printLine("3) Done, finalize the graph");
-        choice = scanInt("What do you want to do");
+        choice = scanInt("Enter Choice");
         switch (choice) {
             case 1:
                 nodeInput(g);
@@ -39,15 +39,12 @@ Graph *graphEdit(Graph *g) {
             case 3:
                 break;
             default:
-                printLine("Enter a valid option pls.");
+                printLine("Invalid Choice");
                 break;
         }
     }
+    indexate(g);
     return g;
-}
-
-void depthFirstTraverse(Graph *g) {
-
 }
 
 void traverseOptions(Graph *g) {
@@ -69,32 +66,77 @@ void traverseOptions(Graph *g) {
         case 4:
             break;
         default:
-            printLine("Enter a valid choice pls");
+            printLine("Invalid Choice");
             break;
     }
 }
 
+void allPathsInterface(Graph *g) {
+    int source = scanInt("Source");
+    int destination = scanInt("Destination");
+    printAllPaths(g, source, destination);
+}
+
+void dijkstraInterface(Graph *g) {
+    int source = scanInt("Source");
+    DijkstraQueue *dijkstraQueue = dijkstrasShortestPaths(g, source);
+    printAllPathsDijkstra(dijkstraQueue);
+}
+
+void floydWarshallInterface(Graph *g) {
+    FMatrix *matrix = APSP(g);
+    printFMatrix(matrix);
+}
+
+void pathFindingOptions(Graph *g) {
+    printLine("1) All Paths between two nodes");
+    printLine("2) Dijkstra's Algorithm");
+    printLine("3) Floyd Warshall Algorithm");
+    printLine("4) Exit");
+    int choice = scanInt("Enter Choice");
+    switch (choice) {
+        case 1:
+            allPathsInterface(g);
+            break;
+        case 2:
+            dijkstraInterface(g);
+            break;
+        case 3:
+            floydWarshallInterface(g);
+        default:
+            printLine("Invalid Choice");
+            break;
+    }
+}
 
 void graphInterface(Graph *g) {
     if (g == NULL) {
         g = graphEdit(g);
+    } else {
+        printGraph(g);
     }
     int choice = 0;
     while (choice != 4) {
-        printLine("What do you want to do?");
+        printLine("Enter Choice");
         printLine("1) Traverse Graph");
         printLine("2) Path Finding");
         printLine("3) Modify the Graph");
         printLine("4) Exit the program");
-        choice = scanInt("What do you want to do");
+        choice = scanInt("Enter Choice");
         switch (choice) {
             case 1:
                 traverseOptions(g);
                 break;
+            case 2:
+                pathFindingOptions(g);
+                break;
             case 3:
                 g = graphEdit(g);
+                break;
+            case 4:
+                break;
             default:
-                printLine("Enter a valid choice pls");
+                printLine("Invalid Choice");
         }
     }
 }

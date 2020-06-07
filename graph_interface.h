@@ -9,6 +9,7 @@
 #include "utils.h"
 #include "graph_advanced.h"
 #include "graph_traversal.h"
+#include "graph_path_finding.h"
 
 void graphInterface(Graph *g);
 

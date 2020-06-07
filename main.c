@@ -5,5 +5,16 @@
 #include "graph_interface.h"
 
 int main() {
-    graphInterface(NULL);
+    Graph* g = createEmptyGraph();
+    addNode(g, 10);
+    addNode(g, 20);
+    addNode(g, 30);
+    addNode(g, 40);
+    addEdgeToGraph(g, 10, 20, 1);
+    addEdgeToGraph(g, 10, 30, 6);
+    addEdgeToGraph(g, 10, 40, 5);
+    addEdgeToGraph(g, 20, 30, 2);
+    addEdgeToGraph(g, 20, 40, 3);
+    addEdgeToGraph(g, 30, 40, 4);
+    graphInterface(g);
 }
