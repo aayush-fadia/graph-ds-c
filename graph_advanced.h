@@ -7,7 +7,7 @@
 
 #include "graph_basics.h"
 
-int isConnected(Graph *g);
+int isStronglyConnected(Graph *g);
 
 int hasCycle(Graph *g);
 

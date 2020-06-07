@@ -17,5 +17,6 @@ int main() {
     addEdgeToGraph(g, 20, 40, 3);
     addEdgeToGraph(g, 30, 40, 4);
     printf("%d\n", hasCycle(g));
+    printf("%d\n", isStronglyConnected(g));
     graphInterface(g);
 }

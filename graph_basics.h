@@ -61,4 +61,6 @@ void indexate(Graph *g);
 
 int indexOfNode(Graph *g, int node_id);
 
+void freeGraph(Graph *g);
+
 #endif //DSPD3_GRAPH_BASICS_H

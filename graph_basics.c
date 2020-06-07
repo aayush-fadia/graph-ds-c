@@ -253,3 +253,26 @@ int indexOfNode(Graph *g, int node_id) {
     }
     return nodes_iter->index;
 }
+
+void freeNode(Node *n) {
+    Edge *edges_iter = n->edges;
+    Edge *temp;
+    while (edges_iter != NULL) {
+        temp = edges_iter;
+        edges_iter = edges_iter->next;
+        free(temp);
+    }
+    free(n);
+}
+
+
+void freeGraph(Graph *g) {
+    Node *nodes_iter = g->nodes;
+    Node *temp;
+    while (nodes_iter != NULL) {
+        temp = nodes_iter;
+        nodes_iter = nodes_iter->next;
+        freeNode(temp);
+    }
+    free(g);
+}
