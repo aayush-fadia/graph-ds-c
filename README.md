@@ -19,3 +19,5 @@
 * Dijkstra's algorithm
 * Floyd Warshall algorithm
 * All paths between two nodes
+### Advanced
+* Calculate Minimum Spanning Tree
