@@ -150,6 +150,23 @@ void searchInterface(Graph *g) {
     }
 }
 
+void checksInterface(Graph *g) {
+    printLine("1) Check strong connectivity");
+    printLine("2) Is the Graph Cyclic?");
+    int choice = scanInt("Enter Choice");
+    switch (choice) {
+        case 1:
+            printf("%s\n", isStronglyConnected(g) ? "Connected" : "Disconnected");
+            break;
+        case 2:
+            printf("%s\n", hasCycle(g) ? "Is Cyclic" : "No Cycles");
+            break;
+        default:
+            printLine("Invalid Choice");
+            break;
+    }
+}
+
 void graphInterface(Graph *g) {
     if (g == NULL) {
         g = graphEdit(g);
@@ -157,32 +174,36 @@ void graphInterface(Graph *g) {
         printGraph(g);
     }
     int choice = 0;
-    while (choice != 6) {
+    while (choice != 7) {
         printLine("Enter Choice");
-        printLine("1) Traverse Graph");
-        printLine("2) Search Graph");
-        printLine("3) Path Finding");
-        printLine("4) Modify the Graph");
-        printLine("5) Calculate Minimum Spanning Tree");
-        printLine("6) Exit the program");
+        printLine("1) Checks");
+        printLine("2) Traverse Graph");
+        printLine("3) Search Graph");
+        printLine("4) Path Finding");
+        printLine("5) Modify the Graph");
+        printLine("6) Calculate Minimum Spanning Tree");
+        printLine("7) Exit the program");
         choice = scanInt("Enter Choice");
         switch (choice) {
             case 1:
-                traverseOptions(g);
+                checksInterface(g);
                 break;
             case 2:
-                searchInterface(g);
+                traverseOptions(g);
                 break;
             case 3:
-                pathFindingOptions(g);
+                searchInterface(g);
                 break;
             case 4:
-                g = graphEdit(g);
+                pathFindingOptions(g);
                 break;
             case 5:
-                minSpanTreeInterface(g);
+                g = graphEdit(g);
                 break;
             case 6:
+                minSpanTreeInterface(g);
+                break;
+            case 7:
                 break;
             default:
                 printLine("Invalid Choice");
