@@ -95,3 +95,52 @@ int hasCycle(Graph *g) {
     }
     return cyclic;
 }
+
+
+Graph *minimumSpanningTree(Graph *g) {
+    Graph *minTree = createEmptyGraphDirected();
+    MSTEdgeItem *sortedEdges = NULL;
+    Node *nodes_iter = g->nodes;
+    while (nodes_iter != NULL) {
+        Edge *edges_iter = nodes_iter->edges;
+        addNode(minTree, nodes_iter->id);
+        while (edges_iter != NULL) {
+            MSTEdgeItem *newEdgeItem = (MSTEdgeItem *) malloc(sizeof(MSTEdgeItem));
+            newEdgeItem->edge = edges_iter;
+            newEdgeItem->source_id = nodes_iter->id;
+            if (sortedEdges == NULL) {
+                sortedEdges = newEdgeItem;
+                newEdgeItem->next = NULL;
+            } else {
+                if (sortedEdges->edge->weight > edges_iter->weight) {
+                    newEdgeItem->next = sortedEdges;
+                    sortedEdges = newEdgeItem;
+                } else {
+                    MSTEdgeItem *sorted_iter = sortedEdges->next;
+                    MSTEdgeItem *prev = sortedEdges;
+                    while (sorted_iter != NULL && sorted_iter->edge->weight < edges_iter->weight) {
+                        prev = sorted_iter;
+                        sorted_iter = sorted_iter->next;
+                    }
+                    prev->next = newEdgeItem;
+                    newEdgeItem->next = sorted_iter;
+                }
+            }
+            edges_iter = edges_iter->next;
+        }
+        nodes_iter = nodes_iter->next;
+    }
+    MSTEdgeItem *sortedIter = sortedEdges;
+    int added_edges = 0;
+    while (sortedIter != NULL && added_edges < g->node_count - 1) {
+        addEdgeToGraph(minTree, sortedIter->source_id, sortedIter->edge->dest, sortedIter->edge->weight);
+        if (hasCycle(minTree)) {
+            deleteEdgeFromGraph(minTree, sortedIter->source_id, sortedIter->edge->dest);
+        } else {
+            added_edges += 1;
+        }
+        printf("Weight: %d, from %d to %d\n", sortedIter->edge->weight, sortedIter->source_id, sortedIter->edge->dest);
+        sortedIter = sortedIter->next;
+    }
+    return minTree;
+}
