@@ -122,6 +122,12 @@ void pathFindingOptions(Graph *g) {
     }
 }
 
+void minSpanTreeInterface(Graph *g) {
+    Graph *minTree = minimumSpanningTree(g);
+    printGraph(minTree);
+    freeGraph(minTree);
+}
+
 void graphInterface(Graph *g) {
     if (g == NULL) {
         g = graphEdit(g);
@@ -129,12 +135,13 @@ void graphInterface(Graph *g) {
         printGraph(g);
     }
     int choice = 0;
-    while (choice != 4) {
+    while (choice != 5) {
         printLine("Enter Choice");
         printLine("1) Traverse Graph");
         printLine("2) Path Finding");
         printLine("3) Modify the Graph");
-        printLine("4) Exit the program");
+        printLine("4) Calculate Minimum Spanning Tree");
+        printLine("5) Exit the program");
         choice = scanInt("Enter Choice");
         switch (choice) {
             case 1:
@@ -147,6 +154,9 @@ void graphInterface(Graph *g) {
                 g = graphEdit(g);
                 break;
             case 4:
+                minSpanTreeInterface(g);
+                break;
+            case 5:
                 break;
             default:
                 printLine("Invalid Choice");

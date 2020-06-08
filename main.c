@@ -5,7 +5,7 @@
 #include "graph_interface.h"
 
 int main() {
-    Graph* g = createEmptyGraphDirected();
+    Graph *g = createEmptyGraphDirected();
     addNode(g, 10);
     addNode(g, 20);
     addNode(g, 30);
