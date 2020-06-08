@@ -7,7 +7,6 @@
 * Add/Delete nodes
 * Add/Delete edges
 * Free all memory allocated to graph
-* Reverse a graph
 ### Checks
 * Strong Connectivity
 * Cyclic
@@ -21,3 +20,5 @@
 * All paths between two nodes
 ### Advanced
 * Calculate Minimum Spanning Tree
+* Reverse a graph
+
