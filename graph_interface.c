@@ -3,7 +3,7 @@
 //
 
 #include "graph_interface.h"
-
+#include "graph_search.h"
 
 void nodeInput(Graph *g) {
     int node_id = scanInt("Enter node id (Any Integer)");
@@ -116,6 +116,7 @@ void pathFindingOptions(Graph *g) {
             break;
         case 3:
             floydWarshallInterface(g);
+            break;
         default:
             printLine("Invalid Choice");
             break;
@@ -128,6 +129,27 @@ void minSpanTreeInterface(Graph *g) {
     freeGraph(minTree);
 }
 
+void searchInterface(Graph *g) {
+    int search_id = scanInt("ID to search for");
+    printLine("1) Depth First Search");
+    printLine("2) Breadth First Search");
+    printLine("3) Exit");
+    int choice = scanInt("Enter Choice");
+    switch (choice) {
+        case 1:
+            printf("%s\n", searchDepthFirst(g, search_id) ? "Found" : "Not Found");
+            break;
+        case 2:
+            printf("%s\n", searchBreadthFirst(g, search_id) ? "Found" : "Not Found");
+            break;
+        case 3:
+            break;
+        default:
+            printLine("Invalid Choice");
+            break;
+    }
+}
+
 void graphInterface(Graph *g) {
     if (g == NULL) {
         g = graphEdit(g);
@@ -135,28 +157,32 @@ void graphInterface(Graph *g) {
         printGraph(g);
     }
     int choice = 0;
-    while (choice != 5) {
+    while (choice != 6) {
         printLine("Enter Choice");
         printLine("1) Traverse Graph");
-        printLine("2) Path Finding");
-        printLine("3) Modify the Graph");
-        printLine("4) Calculate Minimum Spanning Tree");
-        printLine("5) Exit the program");
+        printLine("2) Search Graph");
+        printLine("3) Path Finding");
+        printLine("4) Modify the Graph");
+        printLine("5) Calculate Minimum Spanning Tree");
+        printLine("6) Exit the program");
         choice = scanInt("Enter Choice");
         switch (choice) {
             case 1:
                 traverseOptions(g);
                 break;
             case 2:
-                pathFindingOptions(g);
+                searchInterface(g);
                 break;
             case 3:
-                g = graphEdit(g);
+                pathFindingOptions(g);
                 break;
             case 4:
-                minSpanTreeInterface(g);
+                g = graphEdit(g);
                 break;
             case 5:
+                minSpanTreeInterface(g);
+                break;
+            case 6:
                 break;
             default:
                 printLine("Invalid Choice");

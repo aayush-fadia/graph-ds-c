@@ -3,6 +3,7 @@
 #include "graph_advanced.h"
 #include "graph_path_finding.h"
 #include "graph_interface.h"
+#include "graph_search.h"
 
 int main() {
     Graph *g = createEmptyGraphDirected();
@@ -16,7 +17,5 @@ int main() {
     addEdgeToGraph(g, 20, 30, 2);
     addEdgeToGraph(g, 20, 40, 3);
     addEdgeToGraph(g, 30, 40, 4);
-    Graph *mst = minimumSpanningTree(g);
-    printGraph(mst);
     graphInterface(g);
 }
